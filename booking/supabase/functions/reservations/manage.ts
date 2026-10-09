@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 import { ApiError, jsonResponse } from "../_shared/http.ts";
 import { isValidUuid, requireNonEmptyString } from "../_shared/validation.ts";
+import { assertManageLinkActive } from "../_shared/manageExpiry.ts";
 
 const ACTIVE_STATUSES = ["tentative", "confirmed", "in_service", "awaiting_checkout"];
 
@@ -33,6 +34,8 @@ export async function getReservationByToken(
   if (!data) {
     throw new ApiError("NOT_FOUND", "リンクが無効です。予約が見つかりませんでした。");
   }
+
+  assertManageLinkActive(data.time_range);
 
   return jsonResponse({ reservation: data }, { headers });
 }

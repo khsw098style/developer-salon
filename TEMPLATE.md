@@ -28,7 +28,7 @@
 - [ ] `booking/admin/index.html` の `<title>`・ログイン画面の店舗名、およびヘッダーに残す初期表示・設定読み込み失敗時用の `City Dogs` を書き換える。ヘッダーの `STAFF ADMIN` は共通文言なので変更しない
 - [ ] `lp/images/` の写真・ロゴ(`shop_logo.png`・`logo-mark.png`)・favicon一式(`favicon-16.png`/`favicon-32.png`/`apple-touch-icon.png`)を新店舗のものに差し替え、必要な画像を `booking/admin/` 側にもコピー。ヘッダー用 `logo-mark.png` はLPと管理画面で同じ画像にする
 - [ ] 掲載する写真について、店舗オーナーから使用許諾を得ているか確認
-- [ ] **`booking/supabase/functions/_shared/reservationEmail.ts`** の予約確認メール件名(`【City Dogs】ご予約確認`)を新店舗名に書き換える(**顧客に実際に届くメールの文面に直接影響するため見落とし厳禁**)
+- [ ] 予約確認メールの件名には、下記5.のEdge Function環境変数`STORE_NAME`を設定する。LP・管理画面の`STORE_NAME`と同じ店舗名にする(公開予約と電話予約の代理登録で共通)
 - [ ] (確認のみ)`booking/supabase/functions/_shared/email.ts` の `DEFAULT_FROM` は店舗名を含まない汎用フォールバックにしてあるため書き換え不要。ただし下記5.で`RESEND_FROM_ADDRESS`を必ず設定すること(未設定のままだとこのフォールバックのまま送信される)
 
 ## 3. Edge Functionsのデプロイ
@@ -48,6 +48,7 @@
 - [ ] `ALLOWED_ORIGINS="https://<LPの本番ドメイン>,https://<管理画面の本番ドメイン>,http://localhost:5500,http://localhost:5501,http://localhost:5502"`(未設定だと全オリジン許可`*`のままなので公開前に必須。**末尾のlocalhostの3ポートは`lp/tests/*.e2e.mjs`・`admin.e2e.mjs`が使う固定ポートなので、本番ドメインに絞っても必ず残すこと**。外すとローカルE2Eテストが軒並みCORSで失敗する)
 - [ ] `RESEND_API_KEY="<Resendダッシュボードで発行したAPIキー>"`
 - [ ] `MANAGE_PAGE_BASE_URL="https://<LPの本番ドメイン>/manage.html"`
+- [ ] `STORE_NAME="<新店舗名>"`(予約確認メールの件名に使用。未設定時は暫定値`StoreName`になるため、LP・管理画面の設定値と揃える)
 - [ ] `RESEND_FROM_ADDRESS="<新店舗名> <no-reply@新店舗ドメイン>"`(独自ドメインをResend側で検証済みであること)
 - [ ] `TURNSTILE_SECRET_KEY="<Cloudflare Turnstileダッシュボードで発行したシークレットキー>"`(未設定の間はfail-openで検証がスキップされるだけなので、設定し忘れると気づきにくい。本番公開前に必ず設定すること)。**本番の実キーを設定すると、`lp/tests/reserve.e2e.mjs`(`POST /reservations`が私たち自身の`_shared/turnstile.ts`でこのsecretを検証するため)を実行する前に一時的にテスト用シークレットキー(`1x0000000000000000000000000000000AA`)へ戻す必要がある**(テスト用サイトキーが発行するダミートークンは本番の実キーでは拒否される仕様のため)。テスト実行後は本番キーに戻し忘れないこと。**`booking/admin/tests/admin.e2e.mjs`のログインは`TURNSTILE_SECRET_KEY`とは無関係**(Supabase Auth自体の「Attack Protection」captchaを使う別経路のため、この設定を切り替えても効果はない。2026-09-18訂正)。詳細は各テストファイル冒頭のコメントとCHANGELOG.mdを参照
 

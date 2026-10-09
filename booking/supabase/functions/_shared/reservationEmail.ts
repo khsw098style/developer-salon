@@ -40,6 +40,7 @@ export async function sendReservationConfirmationEmail(
 
   const dateLabel = jstDateTimeFmt.format(info.startAt);
   const timeLabel = `${jstTimeFmt.format(info.startAt)}〜${jstTimeFmt.format(info.endAt)}`;
+  const endLabel = `${jstDateTimeFmt.format(info.endAt)} ${jstTimeFmt.format(info.endAt)}`;
 
   const html = `
     <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; color: #17231d;">
@@ -56,14 +57,17 @@ export async function sendReservationConfirmationEmail(
       <p style="margin: 1.5rem 0;">
         <a href="${manageUrl}" style="display:inline-block; background:#1f6552; color:#fff; padding:0.8em 1.6em; border-radius:6px; text-decoration:none;">予約を確認・変更する</a>
       </p>
+      <p style="font-size: 0.82rem; color: #5c6a62;">予約終了時刻（${escapeHtml(endLabel)}）になると、このリンクから予約内容を閲覧できなくなります。</p>
       <p style="font-size: 0.78rem; color: #8a978f;">このリンクはこの予約専用です。第三者に共有しないでください。</p>
     </div>
   `;
 
-  // 🏪 店舗固有: 件名の店舗名は決め打ちなので、新しい店舗向けに複製する場合はここを書き換える。
+  // 🏪 店舗固有: Edge Functionはブラウザ側config.jsを読めないため、STORE_NAMEで設定する。
+  // 未設定時はLP・管理画面の暫定名と同じ表示にする。
+  const storeName = Deno.env.get("STORE_NAME")?.trim() || "StoreName";
   await sendEmail({
     to,
-    subject: `【City Dogs】ご予約確認(${info.reservationNumber})`,
+    subject: `【${storeName}】ご予約確認(${info.reservationNumber})`,
     html,
   });
 }
