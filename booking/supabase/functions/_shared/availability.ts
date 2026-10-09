@@ -239,6 +239,7 @@ async function fetchStaff(client: SupabaseClient, staffId: string): Promise<Staf
     .from("staff")
     .select("id, name")
     .eq("is_active", true)
+    .eq("is_management_only", false)
     .not("role", "in", NON_BOOKABLE_ROLES)
     .eq("id", staffId)
     .order("display_order", { ascending: true });

@@ -53,7 +53,7 @@ export async function sendReservationConfirmationEmail(
         <tr><td style="padding: 0.4em 0; color: #5c6a62;">担当</td><td style="padding: 0.4em 0;">${escapeHtml(info.staffName)}</td></tr>
         <tr><td style="padding: 0.4em 0; color: #5c6a62;">料金</td><td style="padding: 0.4em 0;">¥${yenFmt.format(info.price)}${info.priceIsFrom ? "〜" : ""}</td></tr>
       </table>${info.priceIsFrom ? '<p style="font-size: 0.82rem; color: #5c6a62;">※「〜」付きメニューを含むため、確定のお会計金額はご来店時にご案内します。</p>' : ""}
-      <p>ご予約の確認・変更・キャンセルは以下のリンクから行えます。</p>
+      <p>以下のリンクからご予約を確認できます。変更・キャンセルをご希望の場合は、リンク先でキャンセルの可否をご確認ください。</p>
       <p style="margin: 1.5rem 0;">
         <a href="${manageUrl}" style="display:inline-block; background:#1f6552; color:#fff; padding:0.8em 1.6em; border-radius:6px; text-decoration:none;">予約を確認・変更する</a>
       </p>

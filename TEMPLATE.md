@@ -15,13 +15,15 @@
 
 - [ ] https://supabase.com/dashboard で新規プロジェクトを作成(**Region: Northeast Asia (Tokyo)** を必ず選ぶ)
 - [ ] `booking/`で `npx supabase login` → `npm run link -- --project-ref <新Project Ref>`
-- [ ] `npm run db:push` で migrations(`0001`〜`0010`、全テーブル・RLS・制約・Storageバケット`site-images`含む。店舗非依存の汎用スキーマなのでそのまま使える)を適用
+- [ ] `npm run db:push` で migrations(全テーブル・RLS・制約・Storageバケット`site-images`含む。店舗非依存の汎用スキーマなのでそのまま使える)を適用。`0018`でお客様のキャンセル設定は初期値「予約開始0時間前まで」になる
 - [ ] `npx supabase projects api-keys --project-ref <新Project Ref>` で新プロジェクトの `publishable` キー(`sb_publishable_...`)を控える
 
 ## 2. 店舗固有ファイルの書き換え(`🏪 店舗固有` コメント参照)
 
 - [ ] `lp/js/config.js` の `STORE_NAME` / `STORE_CATEGORY_LABEL` を新店舗のヘッダー・フッター表示名と業種表示に書き換える。`SUPABASE_URL` / `ANON_KEY` を新プロジェクトの値に書き換え。`TURNSTILE_SITE_KEY`もCloudflareダッシュボード(Turnstile → Add widget)で発行した本番用サイトキーに差し替え(テスト用キー`1x00000000000000000000AA`のままでは公開後も検証が常に成功してしまい、ボット対策として機能しない)。Hostname Managementには**本番ドメインと`localhost`の両方**を登録すること(`localhost`が無いとローカルE2Eテストが後述の理由でタイムアウトする)
 - [ ] `booking/admin/js/config.js` の `STORE_NAME` をLP側と同じ店舗名に書き換える。`SUPABASE_URL` / `ANON_KEY` を新プロジェクトの値に書き換え。あわせて`ENABLED_TABS`で、その店舗で使わない管理画面のタブ(顧客管理・売上予定実績など)を`false`にする(`false`のタブは表示されない。最低1つは`true`にすること)
+- [ ] お客様のキャンセル期限は管理画面の「営業日・シフト」タブでオーナーが設定する。DBの`public.reservation_policy`(`id=1`)に保存され、既存予約にも即時適用される。`0`は予約開始前まで、正の整数は開始の指定時間前まで、受付停止は`NULL`
+- [ ] 店舗オーナーが施術スタッフではない場合は、`staff.role='owner'`・`is_active=true`・`is_management_only=true`の管理専用行に、その店舗のAuthユーザーIDを紐付ける。管理専用行はLP・予約担当候補・シフト・売上集計へ出ない。既存のstylist/maintainerアカウントを開発用ownerへ移す場合は、`booking/scripts/create-management-owner.sql`のプレースホルダーを対象AuthユーザーIDに置き換え、Supabase SQL Editorで実行する。元のスタッフ行は削除せず、ログイン紐付けだけ外す
 - [ ] `booking/supabase/seed.sql` を新店舗のメニュー・スタッフ名・営業時間(定休日パターン含む)に書き換える
 - [ ] 書き換えた seed.sql を投入: `npx supabase db push --include-seed`(反映されない場合は `npx supabase db query --linked -f supabase/seed.sql` で直接実行。過去に前者だけでは反映されないことがあった)
 - [ ] `lp/index.html`・`lp/reserve.html`・`lp/manage.html` の `<title>`・meta description・本文中の店舗名・電話番号・Instagramリンク・地図の座標(Googleマップ埋め込みURL)・footerの著作権表記を新店舗の情報に書き換え。ヘッダーとフッターの表示名は上記の設定値から反映されるが、HTMLに残す初期表示・設定読み込み失敗時用の `City Dogs / BARBER SHOP` も書き換える

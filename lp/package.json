@@ -5,7 +5,9 @@
   "description": "City Dogs LP + WEB予約ウィザード",
   "scripts": {
     "serve": "serve -l 5500 .",
-    "test:e2e": "node tests/reserve.e2e.mjs"
+    "test:e2e": "node tests/reserve.e2e.mjs",
+    "test:manage-policy": "node tests/manage-policy.e2e.mjs",
+    "test:manage-live": "node tests/manage-live.e2e.mjs"
   },
   "devDependencies": {
     "@supabase/supabase-js": "^2.116.0",

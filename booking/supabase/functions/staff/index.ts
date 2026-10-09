@@ -39,6 +39,7 @@ Deno.serve(async (req) => {
       .from("staff")
       .select("id, name, role")
       .eq("is_active", true)
+      .eq("is_management_only", false)
       .not("role", "in", NON_BOOKABLE_ROLES)
       .order("display_order", { ascending: true });
 

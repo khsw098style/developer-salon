@@ -25,6 +25,7 @@ export async function getSchedule(url: URL, client: SupabaseClient, headers: Hea
     .from("staff")
     .select("id, name, role")
     .eq("is_active", true)
+    .eq("is_management_only", false)
     .neq("role", MAINTAINER_ROLE)
     .order("display_order", { ascending: true });
   if (staffErr) throw new ApiError("INTERNAL_ERROR", "スタッフ情報の取得に失敗しました。");

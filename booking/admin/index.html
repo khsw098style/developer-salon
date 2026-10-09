@@ -308,6 +308,26 @@
 
     <!-- 営業日・シフトタブ -->
     <section class="tab-panel" data-tab="shifts">
+      <h2 class="content-heading">お客様のキャンセル受付</h2>
+        <p class="content-note">ここで変更した設定は、すでに入っている予約にも直ちに適用されます。管理画面からの予約操作には適用されません。設定を変更できるのはオーナー権限のアカウントだけです。</p>
+      <form id="cancelPolicyForm" class="content-card" style="margin-bottom:1.5rem">
+        <fieldset id="cancelPolicyFields" style="border:0;padding:0;margin:0">
+          <div class="field">
+            <label for="cancelPolicyMode">受付方法</label>
+            <select id="cancelPolicyMode">
+              <option value="hours">予約開始の指定時間前まで</option>
+              <option value="disabled">お客様からのキャンセルを受け付けない</option>
+            </select>
+          </div>
+          <div class="field" id="cancelPolicyHoursField">
+            <label for="cancelPolicyHours">予約開始の何時間前まで（0＝開始時刻より前まで）</label>
+            <input type="number" id="cancelPolicyHours" min="0" max="8760" step="1" value="0" required>
+          </div>
+          <button type="submit" class="btn btn-primary" id="cancelPolicySave">設定を保存</button>
+        </fieldset>
+        <p class="form-error" id="cancelPolicyError" hidden></p>
+        <span class="save-status" id="cancelPolicyStatus"></span>
+      </form>
       <div class="date-nav">
         <button type="button" class="btn btn-ghost btn-small" id="shiftsPrevMonth">‹ 前月</button>
         <input type="month" id="shiftsMonth" class="date-input">

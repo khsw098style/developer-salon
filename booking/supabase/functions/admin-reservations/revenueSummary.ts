@@ -31,6 +31,7 @@ export async function getRevenueSummary(url: URL, client: SupabaseClient, header
     .from("staff")
     .select("id, name")
     .eq("is_active", true)
+    .eq("is_management_only", false)
     .not("role", "in", NON_BOOKABLE_ROLES)
     .order("display_order", { ascending: true });
   if (staffErr) throw new ApiError("INTERNAL_ERROR", "スタッフ情報の取得に失敗しました。");

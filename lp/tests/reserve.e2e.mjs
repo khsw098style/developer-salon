@@ -474,15 +474,23 @@ async function run() {
         throw new Error('manage.htmlに複数メニュー(カット + 顔剃り)が表示されていません: ' + manageText);
       }
 
-      await page.click('#cancelBtn');
-      await page.waitForSelector('#cancelConfirm .cancel-confirm', { timeout: 5000 });
-      await page.click('#cancelYes');
-      await page.waitForSelector('.result-card', { timeout: 10000 });
-      const cancelledText = await page.locator('.result-card').innerText();
-      if (!cancelledText.includes('キャンセルが完了')) {
-        throw new Error('manage.html経由のキャンセルが完了しませんでした。');
+      if (await page.locator('#cancelBtn').count()) {
+        await page.click('#cancelBtn');
+        await page.waitForSelector('#cancelConfirm .cancel-confirm', { timeout: 5000 });
+        await page.click('#cancelYes');
+        await page.waitForSelector('.result-card', { timeout: 10000 });
+        const cancelledText = await page.locator('.result-card').innerText();
+        if (!cancelledText.includes('キャンセルが完了')) {
+          throw new Error('manage.html経由のキャンセルが完了しませんでした。');
+        }
+        console.log('manage.html経由の照会・キャンセルを確認しました。');
+      } else {
+        // 店舗設定で受付停止・期限到達なら、予約照会は有効でもキャンセル操作は出ない。
+        if (!manageText.includes('お店へお電話でお問い合わせください') || manageText.includes('キャンセルの可否を確認できません')) {
+          throw new Error('キャンセル不可の理由と電話案内が表示されていません。');
+        }
+        console.log('店舗設定によりキャンセル不可。理由と電話案内を確認しました。');
       }
-      console.log('manage.html経由の照会・キャンセルを確認しました。');
 
       // 不正なトークンでアクセスした場合にエラー表示になることも確認する。
       // サーバーは意図どおり404を返すが、ブラウザはfetchの非2xxレスポンスを

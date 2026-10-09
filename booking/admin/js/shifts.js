@@ -7,6 +7,7 @@ import {
 } from './core.js';
 
 let shiftsTabInitialized = false;
+let canEditCancelPolicy = false;
 export function initShiftsTabOnce() {
   if (!el.shiftsMonth.value) el.shiftsMonth.value = monthValueOf(new Date());
   if (shiftsTabInitialized) return;
@@ -20,8 +21,59 @@ export function initShiftsTabOnce() {
   el.shiftsStaffSelect.addEventListener('change', renderStaffShiftsCalendar);
   el.businessDayForm.addEventListener('submit', submitBusinessDayForm);
   el.staffShiftForm.addEventListener('submit', submitStaffShiftForm);
+  document.getElementById('cancelPolicyMode').addEventListener('change', syncCancelPolicyFields);
+  document.getElementById('cancelPolicyForm').addEventListener('submit', submitCancelPolicy);
 
   loadShiftsTab();
+  loadCancelPolicy();
+}
+
+function syncCancelPolicyFields() {
+  const disabled = document.getElementById('cancelPolicyMode').value === 'disabled';
+  document.getElementById('cancelPolicyHoursField').hidden = disabled;
+  document.getElementById('cancelPolicyHours').disabled = disabled;
+}
+
+async function loadCancelPolicy() {
+  const errorEl = document.getElementById('cancelPolicyError');
+  const fields = document.getElementById('cancelPolicyFields');
+  fields.disabled = true;
+  try {
+    const data = await apiFetch('admin-reservations', '/cancel-policy');
+    document.getElementById('cancelPolicyMode').value = data.policy.cancel_cutoff_hours === null ? 'disabled' : 'hours';
+    document.getElementById('cancelPolicyHours').value = data.policy.cancel_cutoff_hours ?? 0;
+    syncCancelPolicyFields();
+    canEditCancelPolicy = data.can_edit === true;
+    fields.disabled = !canEditCancelPolicy;
+    hideFormError(errorEl);
+  } catch (err) {
+    showFormError(errorEl, `キャンセル設定を取得できませんでした: ${err.message}`);
+  }
+}
+
+async function submitCancelPolicy(event) {
+  event.preventDefault();
+  const errorEl = document.getElementById('cancelPolicyError');
+  const fields = document.getElementById('cancelPolicyFields');
+  const mode = document.getElementById('cancelPolicyMode').value;
+  const hours = Number(document.getElementById('cancelPolicyHours').value);
+  if (mode === 'hours' && (!Number.isInteger(hours) || hours < 0 || hours > 8760)) {
+    showFormError(errorEl, '0〜8760の整数で入力してください。');
+    return;
+  }
+  fields.disabled = true;
+  try {
+    await apiFetch('admin-reservations', '/cancel-policy', {
+      method: 'PUT', body: { cancel_cutoff_hours: mode === 'disabled' ? null : hours },
+    });
+    hideFormError(errorEl);
+    showSaveStatus(document.getElementById('cancelPolicyStatus'), '保存しました。既存予約にも適用されています。', true);
+  } catch (err) {
+    showFormError(errorEl, err.message);
+  } finally {
+    fields.disabled = !canEditCancelPolicy;
+    syncCancelPolicyFields();
+  }
 }
 
 function shiftMonth(delta) {

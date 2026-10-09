@@ -150,6 +150,7 @@ export async function generateMonthShifts(req: Request, client: SupabaseClient, 
       .from("staff")
       .select("id")
       .eq("is_active", true)
+      .eq("is_management_only", false)
       .neq("role", MAINTAINER_ROLE);
     if (staffErr) throw new ApiError("INTERNAL_ERROR", "スタッフ情報の取得に失敗しました。");
     staffIds = (staffRows ?? []).map((s) => s.id as string);

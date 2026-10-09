@@ -4,8 +4,6 @@
   const { SUPABASE_URL, ANON_KEY } = window.DEVELOPER_SALON_CONFIG;
   const API_BASE = `${SUPABASE_URL}/functions/v1`;
 
-  const ACTIVE_STATUSES = ['tentative', 'confirmed', 'in_service', 'awaiting_checkout'];
-
   const STATUS_META = {
     tentative: { label: '仮予約', pill: 'is-active' },
     confirmed: { label: '確定', pill: 'is-active' },
@@ -96,7 +94,7 @@
 
     try {
       const data = await apiFetch(`/reservations/manage?token=${encodeURIComponent(token)}`);
-      renderReservation(token, data.reservation);
+      renderReservation(token, data.reservation, data.cancellation);
     } catch (err) {
       renderError(err.message);
     }
@@ -117,10 +115,10 @@
     return `¥${yenFmt.format(r.price_at_booking)}${isFrom ? '〜' : ''}`;
   }
 
-  function renderReservation(token, r) {
+  function renderReservation(token, r, cancellation) {
     const range = parseTimeRange(r.time_range);
     const meta = STATUS_META[r.status] || { label: r.status, pill: 'is-muted' };
-    const canCancel = ACTIVE_STATUSES.includes(r.status);
+    const canCancel = cancellation?.can_cancel === true;
 
     el.area.innerHTML = `
       <div class="manage-card">
@@ -145,7 +143,7 @@
           </div>
           <div id="cancelConfirm" hidden></div>
         ` : `
-          <p class="manage-note">この予約はすでに${escapeHtml(meta.label)}のため、これ以上の操作はできません。ご不明な点はお店までお問い合わせください。</p>
+          <p class="manage-note">${escapeHtml(cancellation?.reason ?? 'キャンセルの可否を確認できません。')} お手数ですがお店へお電話でお問い合わせください。</p>
           <div class="wizard-actions">
             <span></span>
             <a href="tel:08064810409" class="btn btn-outline">お店に電話する</a>
@@ -183,6 +181,10 @@
         });
         renderCancelled();
       } catch (err) {
+        if (['LINK_EXPIRED', 'CANCELLATION_CLOSED', 'INVALID_STATUS_TRANSITION'].includes(err.code)) {
+          await loadReservation();
+          return;
+        }
         btn.disabled = false;
         btn.textContent = 'キャンセルする';
         alert(err.message);

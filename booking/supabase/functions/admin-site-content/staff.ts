@@ -32,6 +32,7 @@ export async function listStaffBios(client: SupabaseClient, headers: HeadersInit
     .from("staff")
     .select(SELECT_COLUMNS)
     .neq("role", MAINTAINER_ROLE)
+    .eq("is_management_only", false)
     .order("display_order", { ascending: true });
   if (error) throw new ApiError("INTERNAL_ERROR", "スタッフ情報の取得に失敗しました。");
 

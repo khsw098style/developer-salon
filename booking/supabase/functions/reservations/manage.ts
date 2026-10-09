@@ -2,8 +2,7 @@ import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 import { ApiError, jsonResponse } from "../_shared/http.ts";
 import { isValidUuid, requireNonEmptyString } from "../_shared/validation.ts";
 import { assertManageLinkActive } from "../_shared/manageExpiry.ts";
-
-const ACTIVE_STATUSES = ["tentative", "confirmed", "in_service", "awaiting_checkout"];
+import { cancellationAvailability } from "../_shared/customerCancellation.ts";
 
 // GET /reservations/manage?token=...
 // ログイン不要。予約完了メールに記載されたトークンだけを鍵とする、
@@ -37,7 +36,20 @@ export async function getReservationByToken(
 
   assertManageLinkActive(data.time_range);
 
-  return jsonResponse({ reservation: data }, { headers });
+  const { data: policy, error: policyError } = await client
+    .from("reservation_policy")
+    .select("cancel_cutoff_hours")
+    .eq("id", 1)
+    .maybeSingle();
+  if (policyError || !policy) {
+    console.error("reservation policy lookup failed:", policyError);
+    throw new ApiError("INTERNAL_ERROR", "キャンセル設定の取得に失敗しました。");
+  }
+
+  return jsonResponse({
+    reservation: data,
+    cancellation: cancellationAvailability(data.status, data.time_range, policy.cancel_cutoff_hours),
+  }, { headers });
 }
 
 // POST /reservations/manage/cancel  body: { token: string }
@@ -52,42 +64,20 @@ export async function cancelReservationByToken(
   const token = requireNonEmptyString(body?.token, "token");
   if (!isValidUuid(token)) throw new ApiError("NOT_FOUND", "リンクが無効です。予約が見つかりませんでした。");
 
-  const { data: reservation, error } = await client
-    .from("reservations")
-    .select("id, status")
-    .eq("manage_token", token)
-    .maybeSingle();
-
+  // DB関数が予約行と方針行をロックし、時刻・状態を判定してから同じトランザクションで更新する。
+  const { data: result, error } = await client.rpc("cancel_reservation_by_manage_token", { p_token: token });
   if (error) {
-    console.error("reservation manage-cancel fetch failed:", error);
-    throw new ApiError("INTERNAL_ERROR", "予約情報の取得に失敗しました。");
-  }
-  if (!reservation) {
-    throw new ApiError("NOT_FOUND", "リンクが無効です。予約が見つかりませんでした。");
-  }
-  if (!ACTIVE_STATUSES.includes(reservation.status)) {
-    throw new ApiError("INVALID_STATUS_TRANSITION", "この予約はすでにキャンセルまたは完了しています。");
-  }
-
-  // 上のチェックはUXのための早期判定に過ぎない。SELECTとUPDATEの間に別リクエスト
-  // (例: 管理画面での会計完了)がstatusを変えている可能性があるため、UPDATE自体にも
-  // status条件を付けて原子的に判定する(2026-09-17、コードレビューで発見・修正)。
-  const { data: updated, error: updateErr } = await client
-    .from("reservations")
-    .update({ status: "cancelled_by_customer", cancel_reason: "顧客によるキャンセル(管理リンク)" })
-    .eq("id", reservation.id)
-    .in("status", ACTIVE_STATUSES)
-    .select("id")
-    .maybeSingle();
-
-  if (updateErr) {
-    console.error("reservation manage-cancel update failed:", updateErr);
+    console.error("reservation manage-cancel failed:", error);
     throw new ApiError("INTERNAL_ERROR", "キャンセル処理に失敗しました。");
   }
-  if (!updated) {
-    // 取得後に他の操作でstatusが変わっていた(競合)。
-    throw new ApiError("INVALID_STATUS_TRANSITION", "この予約はすでにキャンセルまたは完了しています。");
+  if (result === "not_found") throw new ApiError("NOT_FOUND", "リンクが無効です。予約が見つかりませんでした。");
+  if (result === "link_expired") throw new ApiError("LINK_EXPIRED", "この予約確認リンクの有効期限が切れました。");
+  if (result === "invalid_status") {
+    throw new ApiError("INVALID_STATUS_TRANSITION", "この予約は現在の状態ではお客様からキャンセルできません。");
   }
+  if (result === "disabled") throw new ApiError("CANCELLATION_CLOSED", "この店舗ではお客様からのキャンセルを受け付けていません。");
+  if (result === "deadline_passed") throw new ApiError("CANCELLATION_CLOSED", "お客様からのキャンセル受付期限を過ぎています。");
+  if (result !== "cancelled") throw new ApiError("INTERNAL_ERROR", "キャンセル設定の確認に失敗しました。");
 
   return jsonResponse({ status: "cancelled_by_customer" }, { headers });
 }

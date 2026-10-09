@@ -18,6 +18,7 @@ import { listReservations } from "./list.ts";
 import { createAdminReservation } from "./create.ts";
 import { updateReservation } from "./update.ts";
 import { getRevenueSummary } from "./revenueSummary.ts";
+import { getCancelPolicy, updateCancelPolicy } from "./cancelPolicy.ts";
 
 Deno.serve(async (req) => {
   const preflight = handlePreflight(req);
@@ -27,12 +28,17 @@ Deno.serve(async (req) => {
 
   try {
     const client = serviceClient();
-    await requireStaff(req, client);
+    const staff = await requireStaff(req, client);
 
     const url = new URL(req.url);
     const segments = url.pathname.split("/").filter(Boolean);
     const anchor = segments.indexOf("admin-reservations");
     const subPath = anchor === -1 ? [] : segments.slice(anchor + 1);
+
+    if (subPath.length === 1 && subPath[0] === "cancel-policy") {
+      if (req.method === "GET") return await getCancelPolicy(client, staff, headers);
+      if (req.method === "PUT") return await updateCancelPolicy(req, client, staff, headers);
+    }
 
     if (req.method === "GET" && subPath.length === 1 && subPath[0] === "schedule") {
       return await getSchedule(url, client, headers);

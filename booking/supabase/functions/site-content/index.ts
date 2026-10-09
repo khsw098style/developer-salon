@@ -39,6 +39,7 @@ Deno.serve(async (req) => {
         .from("staff")
         .select("name, name_en, bio_role_label, bio_comment, avatar_image_url")
         .eq("is_active", true)
+        .eq("is_management_only", false)
         .neq("role", MAINTAINER_ROLE)
         .order("display_order", { ascending: true }),
       client.from("site_rating").select("rating, review_count").eq("id", 1).maybeSingle(),
