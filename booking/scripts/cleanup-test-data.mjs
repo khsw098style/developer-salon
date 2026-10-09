@@ -20,7 +20,7 @@
 //   2. 予約管理画面E2Eが業務日・シフトのメモに残すテスト文言(遠い未来の月の行は行ごと削除、
 //      通常運用の範囲内の日はメモだけ元に戻す。理由はREADME内コメント参照)
 //   3. 上記1の削除後にreservation_itemsからの参照が0件になった、非公開の旧セットメニュー
-//   4. admin.e2e.mjsが作るテスト用ログインユーザー(citydogs.invalidドメイン)のうち、
+//   4. admin.e2e.mjsが作るテスト用ログインユーザー(developer-salon.invalidドメイン)のうち、
 //      staffに紐付いていない孤児(テスト失敗時の後片付け漏れ)
 //
 // ⚠️ 本運用開始後にこのスクリプトを使う場合は、削除対象の一覧を必ず目で確認してから--applyを付けること。
@@ -253,7 +253,7 @@ async function cleanupOrphanLegacyMenus() {
 }
 
 async function cleanupOrphanTestAuthUsers() {
-  // admin.e2e.mjsが使うテスト用ユーザーのドメイン(TEST_EMAIL = 'temp-e2e-admin@citydogs.invalid')。
+  // 現行と旧テスト用ドメインの両方を対象にする(旧ユーザーの残骸も掃除できるようにする)。
   // 通常はテスト自身のfinallyで削除されるが、テスト実行が途中で落ちると残ることがある。
   const { data: staffRows, error: staffErr } = await client.from('staff').select('auth_user_id').not('auth_user_id', 'is', null);
   if (staffErr) throw new Error(`staff取得に失敗: ${staffErr.message}`);
@@ -262,7 +262,7 @@ async function cleanupOrphanTestAuthUsers() {
   const { data: userList, error: userErr } = await client.auth.admin.listUsers({ perPage: 200 });
   if (userErr) throw new Error(`Authユーザー一覧の取得に失敗: ${userErr.message}`);
   const orphans = (userList?.users ?? []).filter(
-    (u) => u.email?.endsWith('@citydogs.invalid') && !linkedIds.has(u.id),
+    (u) => ['@developer-salon.invalid', '@citydogs.invalid'].some((domain) => u.email?.endsWith(domain)) && !linkedIds.has(u.id),
   );
 
   if (orphans.length === 0) {

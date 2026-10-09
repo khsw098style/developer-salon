@@ -1,4 +1,4 @@
-// City Dogs 予約ウィザード(reserve.html)のE2Eテスト。
+// DeveloperSalon 予約ウィザード(reserve.html)のE2Eテスト。
 // 静的サーバーの起動〜Playwrightでの操作〜サーバー停止まで、これ1本で完結する。
 //
 // 実行方法:

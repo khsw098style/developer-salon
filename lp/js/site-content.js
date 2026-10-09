@@ -194,7 +194,7 @@
       showLoadError(el.staffGrid, message);
     } finally {
       // 新しく追加された.reveal要素をscroll-reveal監視の対象に加える(script.js側で定義)。
-      window.CityDogsObserveReveals?.();
+      window.DeveloperSalonObserveReveals?.();
     }
   }
 

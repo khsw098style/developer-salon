@@ -1,10 +1,10 @@
 // 🏪 店舗固有: LP側(reserve.js / manage.js / site-content.js)が共通で使うSupabase接続情報。
-// 別の店舗向けにこのリポジトリを複製して使う場合、書き換えが必要なのはこのファイルだけ。
+// 店舗名・業種表示と接続先をここで設定する。住所・電話・写真なども複製時に差し替える。
 // 手順は最上位の TEMPLATE.md を参照。
 // ANON_KEYはpublishable(anon)キーで、クライアントに埋め込む前提の公開鍵(秘匿情報ではない)。
 window.DEVELOPER_SALON_CONFIG = {
   STORE_NAME: 'StoreName',
-  STORE_CATEGORY_LABEL: 'BARBER SHOP',
+  STORE_CATEGORY_LABEL: 'SALON',
   SUPABASE_URL: 'https://cwojmmrnhvemupxubtus.supabase.co',
   ANON_KEY: 'sb_publishable_nYEHBjojuRPhIpjBPKG4NQ_nNfQVn7E',
   // Cloudflare Turnstileのサイトキー(公開情報、秘匿不要)。

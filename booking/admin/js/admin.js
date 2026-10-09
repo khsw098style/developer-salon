@@ -18,4 +18,5 @@ import './revenue.js';
 const storeName = window.DEVELOPER_SALON_CONFIG?.STORE_NAME;
 if (typeof storeName === 'string' && storeName.trim()) {
   document.querySelector('.brand-name').textContent = storeName;
+  document.querySelector('.login-title').textContent = `${storeName} 予約管理`;
 }

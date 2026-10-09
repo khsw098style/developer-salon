@@ -2,7 +2,7 @@
   "name": "developer-salon-booking",
   "version": "0.1.0",
   "private": true,
-  "description": "City Dogs 予約管理システム — Supabase CLI(devDependency)経由で操作する",
+  "description": "DeveloperSalon 予約管理システム — Supabase CLI(devDependency)経由で操作する",
   "scripts": {
     "supabase": "supabase",
     "link": "supabase link",

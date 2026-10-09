@@ -1,4 +1,4 @@
-// City Dogs 管理画面(admin/index.html)のE2Eテスト。
+// DeveloperSalon 管理画面(admin/index.html)のE2Eテスト。
 // テスト用のSupabase Authユーザーを一時作成 → staffに紐付け → ログイン →
 // スケジュール/検索タブの表示確認 → LPコンテンツタブ(評価バッジ/CONCEPT/SHOP&STYLE/MENU&PRICE/STAFF)の
 // 編集・追加・削除確認 → 電話予約の代理登録・ステータス変更・リスケジュール →
@@ -80,7 +80,7 @@ const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 const PORT = 5502;
 const BASE_URL = `http://localhost:${PORT}`;
-const TEST_EMAIL = 'temp-e2e-admin@citydogs.invalid';
+const TEST_EMAIL = 'temp-e2e-admin@developer-salon.invalid';
 const TEST_PASSWORD = 'TempTest12345!';
 
 // LPコンテンツタブのテスト用マーカー。実データに混ざっても一目でテスト由来とわかる名称にする。

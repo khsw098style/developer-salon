@@ -28,7 +28,7 @@
             <h2>ご不便をおかけしております</h2>
             <p>WEBでのご予約は現在ご利用いただけません。お急ぎの場合はお電話にてご予約ください。</p>
             <div class="result-actions">
-              <a href="tel:08064810409" class="btn btn-primary">電話で予約する</a>
+              <a href="tel:00000000000" class="btn btn-primary">電話で予約する</a>
               <a href="index.html" class="btn btn-ghost">トップページに戻る</a>
             </div>
           </div>
@@ -643,7 +643,7 @@
         <p style="font-size:0.82rem;color:var(--muted)">ご入力いただいたメールアドレス宛に、予約の確認・変更・キャンセルができるリンクをお送りしました。予約番号とご登録の電話番号も、お問い合わせの際に必要です。控えておいてください。</p>
         <div class="result-actions">
           <a href="index.html" class="btn btn-primary">トップページに戻る</a>
-          <a href="tel:08064810409" class="btn btn-outline">お店に電話する</a>
+          <a href="tel:00000000000" class="btn btn-outline">お店に電話する</a>
         </div>
       </div>
     `;

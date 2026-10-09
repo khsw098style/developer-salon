@@ -1,63 +1,23 @@
 <!DOCTYPE html>
 <html lang="ja">
-<!-- 🏪 店舗固有: title・meta description・電話番号・Instagramリンク・地図座標・footer等、
-     店舗名や店舗情報がハードコードされている箇所を含む。新しい店舗向けに複製する場合は
-     このファイル全体を確認して書き換えること。手順は最上位の TEMPLATE.md を参照。 -->
+<!-- 店舗ごとに複製する際は、仮の連絡先・アクセス情報と写真を実店舗の内容に差し替える。
+     手順は最上位の TEMPLATE.md を参照。 -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
-<title>BARBER City Dogs(シティードッグス)| 浦添市仲間の隠れ家バーバー</title>
-<meta name="description" content="沖縄県浦添市仲間のバーバー「City Dogs」。フェードカットとメンズショートカット専門。カラー・パーマや、眉毛整え・顔剃りなどのオプションもお選びいただける、大人のための隠れ家バーバーサロン。">
+<title>DeveloperSalon</title>
+<meta name="description" content="DeveloperSalonの店舗紹介とWEB予約ページです。メニューやスタッフ、店舗情報をご案内します。">
 <!-- 🏪 店舗固有・ドメイン依存: og:url/og:image・JSON-LDのurl/imageは独自ドメイン未確定のため暫定でworkers.dev URLを指定している。
      独自ドメイン確定後は本番ドメインのURLに差し替えること(CLAUDE.mdの「独自ドメイン確定後に必ずやること」参照) -->
 <meta property="og:type" content="business.business">
-<meta property="og:site_name" content="BARBER City Dogs">
+<meta property="og:site_name" content="DeveloperSalon">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:title" content="BARBER City Dogs(シティードッグス)| 浦添市仲間の隠れ家バーバー">
-<meta property="og:description" content="沖縄県浦添市仲間のバーバー「City Dogs」。フェードカットとメンズショートカット専門。カラー・パーマや、眉毛整え・顔剃りなどのオプションもお選びいただける、大人のための隠れ家バーバーサロン。">
+<meta property="og:title" content="DeveloperSalon">
+<meta property="og:description" content="DeveloperSalonの店舗紹介とWEB予約ページです。">
 <meta property="og:url" content="https://developer-salon.khs-w098style.workers.dev/">
 <meta property="og:image" content="https://developer-salon.khs-w098style.workers.dev/images/hero-mural.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "HairSalon",
-  "name": "BARBER City Dogs",
-  "description": "沖縄県浦添市仲間のバーバー「City Dogs」。フェードカットとメンズショートカット専門。カラー・パーマや、眉毛整え・顔剃りなどのオプションもお選びいただける、大人のための隠れ家バーバーサロン。",
-  "image": "https://developer-salon.khs-w098style.workers.dev/images/hero-mural.jpg",
-  "url": "https://developer-salon.khs-w098style.workers.dev/",
-  "telephone": "+81-80-6481-0409",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "仲間3-1-2",
-    "addressLocality": "浦添市",
-    "addressRegion": "沖縄県",
-    "postalCode": "901-2114",
-    "addressCountry": "JP"
-  },
-  "openingHoursSpecification": [
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday"],
-      "opens": "10:00",
-      "closes": "18:00"
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Saturday", "Sunday"],
-      "opens": "09:00",
-      "closes": "18:00"
-    }
-  ],
-  "sameAs": [
-    "https://www.instagram.com/citydogs928/"
-  ]
-}
-</script>
-<!-- 上記openingHoursSpecificationはschema.orgの表現力の制約により「毎週月曜定休」のみ反映し、
-     「第4日曜も定休」という月次パターンの例外は表現していない(schema.orgに月次繰り返しの休業を
-     表す標準プロパティが無いため)。営業時間の一次情報は本文中の「ACCESS & INFO」セクションを正とする。 -->
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -77,8 +37,8 @@
         <img src="images/logo-mark.png" alt="" loading="eager">
       </span>
       <span class="brand-text">
-        <span class="brand-name">City Dogs</span>
-        <span class="brand-sub">BARBER SHOP</span>
+        <span class="brand-name">StoreName</span>
+        <span class="brand-sub">SALON</span>
       </span>
     </a>
 
@@ -92,11 +52,11 @@
 
     <div class="header-cta">
       <div class="sns-links">
-        <a href="https://www.instagram.com/citydogs928/" target="_blank" rel="noopener" class="sns-link" aria-label="Instagramを見る(@citydogs928)">
-          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2.2c2.7 0 3 0 4.1.06 1.1.05 1.8.22 2.4.46.7.27 1.2.6 1.7 1.1.5.5.9 1 1.1 1.7.24.6.4 1.3.46 2.4.06 1.1.06 1.4.06 4.1s0 3-.06 4.1c-.05 1.1-.22 1.8-.46 2.4-.27.7-.6 1.2-1.1 1.7-.5.5-1 .9-1.7 1.1-.6.24-1.3.4-2.4.46-1.1.06-1.4.06-4.1.06s-3 0-4.1-.06c-1.1-.05-1.8-.22-2.4-.46-.7-.27-1.2-.6-1.7-1.1-.5-.5-.9-1-1.1-1.7-.24-.6-.4-1.3-.46-2.4C2.2 15 2.2 14.7 2.2 12s0-3 .06-4.1c.05-1.1.22-1.8.46-2.4.27-.7.6-1.2 1.1-1.7.5-.5 1-.9 1.7-1.1.6-.24 1.3-.4 2.4-.46C9 2.2 9.3 2.2 12 2.2zm0 1.8c-2.66 0-2.97 0-4.02.06-.9.04-1.4.19-1.72.32-.43.17-.74.37-1.07.7-.33.33-.53.64-.7 1.07-.13.32-.28.82-.32 1.72C4.11 9.03 4.1 9.34 4.1 12s0 2.97.06 4.02c.04.9.19 1.4.32 1.72.17.43.37.74.7 1.07.33.33.64.53 1.07.7.32.13.82.28 1.72.32 1.05.05 1.36.06 4.02.06s2.97 0 4.02-.06c.9-.04 1.4-.19 1.72-.32.43-.17.74-.37 1.07-.7.33-.33.53-.64.7-1.07.13-.32.28-.82.32-1.72.05-1.05.06-1.36.06-4.02s0-2.97-.06-4.02c-.04-.9-.19-1.4-.32-1.72-.17-.43-.37-.74-.7-1.07-.33-.33-.64-.53-1.07-.7-.32-.13-.82-.28-1.72-.32C14.97 4.01 14.66 4 12 4zm0 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 1.8a2.7 2.7 0 1 0 0 5.4 2.7 2.7 0 0 0 0-5.4zm4.7-2a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1z"/></svg>
-        </a>
+        <span class="sns-link is-placeholder" role="img" aria-label="Instagram（リンク未設定）">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </span>
       </div>
-      <a href="tel:08064810409" class="btn btn-ghost btn-small">
+      <a href="tel:00000000000" class="btn btn-ghost btn-small">
         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg>
         電話で予約
       </a>
@@ -116,32 +76,29 @@
     <div class="hero-bg" style="background-image:url('images/hero-mural.jpg')" aria-hidden="true"></div>
     <div class="hero-stripes" aria-hidden="true"></div>
     <div class="hero-inner">
-      <p class="hero-eyebrow reveal">OKINAWA / URASOE &nbsp;&mdash;&nbsp; MEN'S BARBER</p>
+      <p class="hero-eyebrow reveal">YOUR CITY &nbsp;&mdash;&nbsp; YOUR SALON</p>
       <h1 class="hero-title reveal">
-        <span class="line">大人の、</span>
-        <span class="line">隠れ家バーバー。</span>
+        <span class="line">あなたらしい、</span>
+        <span class="line">スタイルを。</span>
       </h1>
       <p class="hero-lead reveal">
-        こだわりのフェードとアイロンパーマで、<br class="sp-only">理想のスタイルへ。<br>
-        浦添市仲間にある町の隠れ家バーバーです。
+        一人ひとりに寄り添うサービスで、<br class="sp-only">理想のスタイルへ。<br>
+        落ち着いた空間で、あなたに合うスタイルをご提案します。
       </p>
       <div class="hero-actions reveal">
         <a href="reserve.html" class="btn btn-primary">WEBで予約する</a>
-        <a href="tel:08064810409" class="btn btn-outline">
+        <a href="tel:00000000000" class="btn btn-outline">
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg>
           電話で予約する
         </a>
       </div>
       <p class="hero-note reveal">WEB・お電話からご予約いただけます。</p>
 
-      <!-- 🏪 店舗固有: Googleマップのplace_id直リンク。口コミ本文はGoogle Places APIで
-           取得・自社表示せず、Googleの本物のクチコミページへのリンクに留めている
-           (2026-09-17。詳細はCLAUDE.mdの「Google口コミ連携」参照) -->
-      <a class="hero-rating reveal" href="https://www.google.com/maps/search/?api=1&query=BARBER%20City%20Dogs&query_place_id=ChIJtQi3cGdt5TQRzXXkz1m8DWs" target="_blank" rel="noopener" aria-label="Googleマップでクチコミを見る(新しいタブで開きます)">
+      <div class="hero-rating reveal" aria-label="お客様からの評価">
         <span class="stars" aria-hidden="true">★★★★★</span>
-        <span class="rating-score" id="ratingScore">4.88</span>
-        <span class="rating-count" id="ratingCount">(11件の口コミ)</span>
-      </a>
+        <span class="rating-score" id="ratingScore">—</span>
+        <span class="rating-count" id="ratingCount">(評価を読み込み中)</span>
+      </div>
     </div>
     <a href="#concept" class="scroll-cue" aria-label="次のセクションへスクロール"><span></span></a>
   </section>
@@ -150,12 +107,11 @@
   <section id="concept" class="section concept">
     <div class="section-inner">
       <p class="kicker reveal">CONCEPT</p>
-      <h2 class="section-title reveal">フェード専門だから、<br class="sp-only">再現性のある仕上がりを。</h2>
+      <h2 class="section-title reveal">あなたに合う、<br class="sp-only">心地よい仕上がりを。</h2>
       <p class="concept-text reveal">
-        City Dogsは、フェードカットとメンズ<br class="sp-only">ショートカットを専門とする理容室です。<br class="sp-only">
-        清潔感のあるビジネススタイルから、<br class="sp-only">こだわりの強いフェードスタイルまで。<br class="sp-only">
-        「毎回同じ仕上がりを、<br class="sp-only">次の予約まで綺麗にキープしたい」——<br class="sp-only">
-        そんな大人の男性のための、<br class="sp-only">落ち着いた隠れ家的なバーバーです。
+        お客様の希望に合わせたスタイルをご提案します。<br class="sp-only">
+        毎日の手入れがしやすいスタイルから、<br class="sp-only">気分を変えるスタイルまで。<br class="sp-only">
+        ご希望やお悩みを伺いながら、<br class="sp-only">一緒に仕上がりを考えます。
       </p>
 
       <div class="feature-grid" id="featureGrid">
@@ -216,49 +172,43 @@
           <dl class="info-list">
             <div class="info-row">
               <dt>店名</dt>
-              <dd>BARBER City Dogs(シティードッグス)</dd>
+              <dd class="store-name">StoreName</dd>
             </div>
             <div class="info-row">
               <dt>住所</dt>
-              <dd>〒901-2114<br>沖縄県浦添市仲間3-1-2<br><span class="info-sub">緑の看板が目印です</span></dd>
+              <dd>〒000-0000<br>サンプル県サンプル市サンプル町1-2-3</dd>
             </div>
             <div class="info-row">
               <dt>アクセス</dt>
-              <dd>ゆいレール(モノレール)前田駅から徒歩約10分<br>店舗前に駐車場2台完備</dd>
+              <dd>アクセス情報を入力してください</dd>
             </div>
             <div class="info-row">
               <dt>営業時間</dt>
               <dd>
-                平日 10:00〜18:00(最終受付)<br>
-                土日 9:00〜18:00(最終受付)
+                営業時間を入力してください
               </dd>
             </div>
             <div class="info-row">
               <dt>定休日</dt>
-              <dd>毎週月曜日・第4日曜日</dd>
+              <dd>定休日を入力してください</dd>
             </div>
             <div class="info-row">
               <dt>お支払い</dt>
-              <dd>現金 / クレジットカード(Visa, Mastercard, JCB, American Express)</dd>
+              <dd>お支払い方法を入力してください</dd>
             </div>
             <div class="info-row">
               <dt>設備</dt>
-              <dd>セット面 2席</dd>
+              <dd>設備情報を入力してください</dd>
             </div>
             <div class="info-row">
               <dt>電話番号</dt>
-              <dd><a href="tel:08064810409">080-6481-0409</a></dd>
+              <dd><a href="tel:00000000000">000-0000-0000</a></dd>
             </div>
           </dl>
         </div>
 
-        <div class="access-map reveal">
-          <iframe
-            title="City Dogs 地図"
-            src="https://www.google.com/maps?q=%E6%B2%96%E7%B8%84%E7%9C%8C%E6%B5%A6%E6%B7%BB%E5%B8%82%E4%BB%B2%E9%96%933-1-2&output=embed"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
+        <div class="access-map reveal" aria-label="地図は準備中です">
+          <div class="map-placeholder">地図は準備中です</div>
         </div>
       </div>
     </div>
@@ -271,9 +221,9 @@
       <p>WEBまたはお電話からご予約ください。</p>
       <div class="cta-actions">
         <a href="reserve.html" class="btn btn-primary btn-large">WEBで予約する</a>
-        <a href="tel:08064810409" class="btn btn-outline btn-large">
+        <a href="tel:00000000000" class="btn btn-outline btn-large">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg>
-          080-6481-0409
+          000-0000-0000
         </a>
       </div>
     </div>
@@ -285,15 +235,15 @@
   <div class="footer-inner">
     <div class="footer-brand">
       <span class="brand-mark small" aria-hidden="true"><img src="images/logo-mark.png" alt="" loading="lazy"></span>
-      <span class="footer-store-name">City Dogs</span>
+      <span class="footer-store-name">StoreName</span>
     </div>
     <div class="sns-links footer-sns">
-      <a href="https://www.instagram.com/citydogs928/" target="_blank" rel="noopener" class="sns-link" aria-label="Instagramを見る(@citydogs928)">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2.2c2.7 0 3 0 4.1.06 1.1.05 1.8.22 2.4.46.7.27 1.2.6 1.7 1.1.5.5.9 1 1.1 1.7.24.6.4 1.3.46 2.4.06 1.1.06 1.4.06 4.1s0 3-.06 4.1c-.05 1.1-.22 1.8-.46 2.4-.27.7-.6 1.2-1.1 1.7-.5.5-1 .9-1.7 1.1-.6.24-1.3.4-2.4.46-1.1.06-1.4.06-4.1.06s-3 0-4.1-.06c-1.1-.05-1.8-.22-2.4-.46-.7-.27-1.2-.6-1.7-1.1-.5-.5-.9-1-1.1-1.7-.24-.6-.4-1.3-.46-2.4C2.2 15 2.2 14.7 2.2 12s0-3 .06-4.1c.05-1.1.22-1.8.46-2.4.27-.7.6-1.2 1.1-1.7.5-.5 1-.9 1.7-1.1.6-.24 1.3-.4 2.4-.46C9 2.2 9.3 2.2 12 2.2zm0 1.8c-2.66 0-2.97 0-4.02.06-.9.04-1.4.19-1.72.32-.43.17-.74.37-1.07.7-.33.33-.53.64-.7 1.07-.13.32-.28.82-.32 1.72C4.11 9.03 4.1 9.34 4.1 12s0 2.97.06 4.02c.04.9.19 1.4.32 1.72.17.43.37.74.7 1.07.33.33.64.53 1.07.7.32.13.82.28 1.72.32 1.05.05 1.36.06 4.02.06s2.97 0 4.02-.06c.9-.04 1.4-.19 1.72-.32.43-.17.74-.37 1.07-.7.33-.33.53-.64.7-1.07.13-.32.28-.82.32-1.72.05-1.05.06-1.36.06-4.02s0-2.97-.06-4.02c-.04-.9-.19-1.4-.32-1.72-.17-.43-.37-.74-.7-1.07-.33-.33-.64-.53-1.07-.7-.32-.13-.82-.28-1.72-.32C14.97 4.01 14.66 4 12 4zm0 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 1.8a2.7 2.7 0 1 0 0 5.4 2.7 2.7 0 0 0 0-5.4zm4.7-2a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1z"/></svg>
-      </a>
+      <span class="sns-link is-placeholder" role="img" aria-label="Instagram（リンク未設定）">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </span>
     </div>
-    <p>〒901-2114 沖縄県浦添市仲間3-1-2</p>
-    <p class="footer-copy">&copy; <span id="year"></span> BARBER City Dogs</p>
+    <p>〒000-0000 サンプル県サンプル市サンプル町1-2-3</p>
+    <p class="footer-copy">&copy; <span id="year"></span> <span class="store-name">StoreName</span></p>
   </div>
 </footer>
 

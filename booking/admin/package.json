@@ -2,7 +2,7 @@
   "name": "developer-salon-admin",
   "version": "0.1.0",
   "private": true,
-  "description": "City Dogs 予約管理(スタッフ向け内部ツール)",
+  "description": "DeveloperSalon 予約管理(スタッフ向け内部ツール)",
   "scripts": {
     "serve": "serve -l 5502 .",
     "test:e2e": "node tests/admin.e2e.mjs"

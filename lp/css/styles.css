@@ -1,8 +1,6 @@
 /* ===========================================================
-   City Dogs LP — White x Green Barber Theme
-   実店舗(緑の壁・白基調・黒の什器)とInstagram(@citydogs928)の
-   雰囲気に合わせた配色。旧ダーク×ヴィンテージ版からの移行のため、
-   変数名は据え置き、値だけを白×緑基調に差し替えている。
+   DeveloperSalon LP — White x Green Theme
+   白×緑基調のテンプレート。変数名は既存デザインに合わせている。
    =========================================================== */
 
 :root {
@@ -149,6 +147,8 @@ a { color: inherit; text-decoration: none; }
   transition: border-color 0.2s ease, color 0.2s ease;
 }
 .sns-link:hover { border-color: var(--gold); color: var(--gold); }
+.sns-link.is-placeholder { cursor: default; }
+.sns-link.is-placeholder:hover { border-color: var(--surface-line); color: var(--muted); }
 
 .brand-mark {
   width: 30px;
@@ -652,6 +652,16 @@ a { color: inherit; text-decoration: none; }
   height: 420px;
   border: 1px solid var(--surface-line);
   border-radius: 6px;
+}
+
+.map-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 420px;
+  border: 1px solid var(--surface-line);
+  border-radius: 6px;
+  color: var(--muted);
 }
 
 /* ---------- CTA ---------- */

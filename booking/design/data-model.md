@@ -1,4 +1,4 @@
-# City Dogs 予約管理システム — データモデル設計 (MVP)
+# DeveloperSalon 予約管理システム — データモデル設計 (MVP)
 
 対象規模: 固定客500人程度、同時アクセスはほぼなし。過剰設計を避け、DDLは [../supabase/migrations/0001_init.sql](../supabase/migrations/0001_init.sql) にそのまま起こせる粒度でまとめている。ER図は [er-diagram.html](./er-diagram.html) をブラウザで開くと見られる(下記コードでも同一内容)。
 

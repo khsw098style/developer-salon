@@ -26,8 +26,8 @@
 - [ ] 店舗オーナーが施術スタッフではない場合は、`staff.role='owner'`・`is_active=true`・`is_management_only=true`の管理専用行に、その店舗のAuthユーザーIDを紐付ける。管理専用行はLP・予約担当候補・シフト・売上集計へ出ない。既存のstylist/maintainerアカウントを開発用ownerへ移す場合は、`booking/scripts/create-management-owner.sql`のプレースホルダーを対象AuthユーザーIDに置き換え、Supabase SQL Editorで実行する。元のスタッフ行は削除せず、ログイン紐付けだけ外す
 - [ ] `booking/supabase/seed.sql` を新店舗のメニュー・スタッフ名・営業時間(定休日パターン含む)に書き換える
 - [ ] 書き換えた seed.sql を投入: `npx supabase db push --include-seed`(反映されない場合は `npx supabase db query --linked -f supabase/seed.sql` で直接実行。過去に前者だけでは反映されないことがあった)
-- [ ] `lp/index.html`・`lp/reserve.html`・`lp/manage.html` の `<title>`・meta description・本文中の店舗名・電話番号・Instagramリンク・地図の座標(Googleマップ埋め込みURL)・footerの著作権表記を新店舗の情報に書き換え。ヘッダーとフッターの表示名は上記の設定値から反映されるが、HTMLに残す初期表示・設定読み込み失敗時用の `City Dogs / BARBER SHOP` も書き換える
-- [ ] `booking/admin/index.html` の `<title>`・ログイン画面の店舗名、およびヘッダーに残す初期表示・設定読み込み失敗時用の `City Dogs` を書き換える。ヘッダーの `STAFF ADMIN` は共通文言なので変更しない
+- [ ] `lp/index.html`・`lp/reserve.html`・`lp/manage.html` の `<title>`・meta description・本文中の仮住所/電話番号・地図プレースホルダー・フッターを新店舗の情報に書き換える。Instagramを使う場合は、リンク未設定のアイコンを実店舗のリンクに差し替える。ヘッダーとフッターの表示名は上記の設定値から反映されるが、HTMLに残す初期表示用の `StoreName / SALON` も書き換える
+- [ ] `booking/admin/index.html` の `<title>`と、ログイン画面・ヘッダーに残す初期表示用の `StoreName` を書き換える。ヘッダーの `STAFF ADMIN` は共通文言なので変更しない
 - [ ] `lp/images/` の写真・ロゴ(`shop_logo.png`・`logo-mark.png`)・favicon一式(`favicon-16.png`/`favicon-32.png`/`apple-touch-icon.png`)を新店舗のものに差し替え、必要な画像を `booking/admin/` 側にもコピー。ヘッダー用 `logo-mark.png` はLPと管理画面で同じ画像にする
 - [ ] 掲載する写真について、店舗オーナーから使用許諾を得ているか確認
 - [ ] 予約確認メールの件名には、下記5.のEdge Function環境変数`STORE_NAME`を設定する。LP・管理画面の`STORE_NAME`と同じ店舗名にする(公開予約と電話予約の代理登録で共通)
@@ -75,4 +75,4 @@
 
 ---
 
-**このチェックリストの更新について**: City Dogs本体に新しい設定項目(secrets・Edge Function・手動セットアップ手順)が増えたときは、このファイルも合わせて更新すること。
+**このチェックリストの更新について**: テンプレート本体に新しい設定項目(secrets・Edge Function・手動セットアップ手順)が増えたときは、このファイルも合わせて更新すること。

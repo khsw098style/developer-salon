@@ -3,7 +3,7 @@
   const storeName = storeConfig?.STORE_NAME;
   const categoryLabel = storeConfig?.STORE_CATEGORY_LABEL;
   if (typeof storeName === 'string' && storeName.trim()) {
-    document.querySelectorAll('.brand-name, .footer-store-name').forEach((el) => {
+    document.querySelectorAll('.brand-name, .footer-store-name, .store-name').forEach((el) => {
       el.textContent = storeName;
     });
   }
@@ -49,7 +49,7 @@
   observeReveals();
   // site-content.jsがCONCEPT/SHOP & STYLE/STAFFセクションをAPIから描画した後、
   // 新しく増えた.reveal要素をこの関数経由で追加登録する(同じ要素の再observeは無害)。
-  window.CityDogsObserveReveals = observeReveals;
+  window.DeveloperSalonObserveReveals = observeReveals;
 
   // Footer year
   const yearEl = document.getElementById('year');

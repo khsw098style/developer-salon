@@ -1,4 +1,4 @@
-# City Dogs 予約管理システム — API設計 (MVP)
+# DeveloperSalon 予約管理システム — API設計 (MVP)
 
 前提: [data-model.md](./data-model.md) のスキーマに基づく。ER図は同ファイル、状態遷移・予約フローの図は [api-diagrams.html](./api-diagrams.html) を参照。
 
