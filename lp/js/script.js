@@ -1,4 +1,18 @@
 (() => {
+  const storeConfig = window.DEVELOPER_SALON_CONFIG;
+  const storeName = storeConfig?.STORE_NAME;
+  const categoryLabel = storeConfig?.STORE_CATEGORY_LABEL;
+  if (typeof storeName === 'string' && storeName.trim()) {
+    document.querySelectorAll('.brand-name, .footer-store-name').forEach((el) => {
+      el.textContent = storeName;
+    });
+  }
+  if (typeof categoryLabel === 'string' && categoryLabel.trim()) {
+    document.querySelectorAll('.brand-sub').forEach((el) => {
+      el.textContent = categoryLabel;
+    });
+  }
+
   const header = document.getElementById('siteHeader');
   const navToggle = document.getElementById('navToggle');
   const mainNav = document.getElementById('mainNav');

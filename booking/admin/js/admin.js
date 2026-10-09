@@ -14,3 +14,8 @@ import './content.js';
 import './shifts.js';
 import './customers.js';
 import './revenue.js';
+
+const storeName = window.DEVELOPER_SALON_CONFIG?.STORE_NAME;
+if (typeof storeName === 'string' && storeName.trim()) {
+  document.querySelector('.brand-name').textContent = storeName;
+}

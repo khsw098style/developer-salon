@@ -20,13 +20,13 @@
 
 ## 2. 店舗固有ファイルの書き換え(`🏪 店舗固有` コメント参照)
 
-- [ ] `lp/js/config.js` の `SUPABASE_URL` / `ANON_KEY` を新プロジェクトの値に書き換え。`TURNSTILE_SITE_KEY`もCloudflareダッシュボード(Turnstile → Add widget)で発行した本番用サイトキーに差し替え(テスト用キー`1x00000000000000000000AA`のままでは公開後も検証が常に成功してしまい、ボット対策として機能しない)。Hostname Managementには**本番ドメインと`localhost`の両方**を登録すること(`localhost`が無いとローカルE2Eテストが後述の理由でタイムアウトする)
-- [ ] `booking/admin/js/config.js` の `SUPABASE_URL` / `ANON_KEY` を新プロジェクトの値に書き換え。あわせて`ENABLED_TABS`で、その店舗で使わない管理画面のタブ(顧客管理・売上予定実績など)を`false`にする(`false`のタブは表示されない。最低1つは`true`にすること)
+- [ ] `lp/js/config.js` の `STORE_NAME` / `STORE_CATEGORY_LABEL` を新店舗のヘッダー・フッター表示名と業種表示に書き換える。`SUPABASE_URL` / `ANON_KEY` を新プロジェクトの値に書き換え。`TURNSTILE_SITE_KEY`もCloudflareダッシュボード(Turnstile → Add widget)で発行した本番用サイトキーに差し替え(テスト用キー`1x00000000000000000000AA`のままでは公開後も検証が常に成功してしまい、ボット対策として機能しない)。Hostname Managementには**本番ドメインと`localhost`の両方**を登録すること(`localhost`が無いとローカルE2Eテストが後述の理由でタイムアウトする)
+- [ ] `booking/admin/js/config.js` の `STORE_NAME` をLP側と同じ店舗名に書き換える。`SUPABASE_URL` / `ANON_KEY` を新プロジェクトの値に書き換え。あわせて`ENABLED_TABS`で、その店舗で使わない管理画面のタブ(顧客管理・売上予定実績など)を`false`にする(`false`のタブは表示されない。最低1つは`true`にすること)
 - [ ] `booking/supabase/seed.sql` を新店舗のメニュー・スタッフ名・営業時間(定休日パターン含む)に書き換える
 - [ ] 書き換えた seed.sql を投入: `npx supabase db push --include-seed`(反映されない場合は `npx supabase db query --linked -f supabase/seed.sql` で直接実行。過去に前者だけでは反映されないことがあった)
-- [ ] `lp/index.html`・`lp/reserve.html`・`lp/manage.html` の `<title>`・meta description・店舗名・電話番号・Instagramリンク・地図の座標(Googleマップ埋め込みURL)・footerを新店舗の情報に書き換え(3ファイルとも同じ店舗名がそれぞれ埋め込まれている)
-- [ ] `booking/admin/index.html` の `<title>`・ログイン画面/ヘッダーの店舗名を書き換え
-- [ ] `lp/images/` の写真・ロゴ(`shop_logo.png`)・favicon一式(`favicon-16.png`/`favicon-32.png`/`apple-touch-icon.png`)を新店舗のものに差し替え、同じファイルを `booking/admin/` 側にもコピー
+- [ ] `lp/index.html`・`lp/reserve.html`・`lp/manage.html` の `<title>`・meta description・本文中の店舗名・電話番号・Instagramリンク・地図の座標(Googleマップ埋め込みURL)・footerの著作権表記を新店舗の情報に書き換え。ヘッダーとフッターの表示名は上記の設定値から反映されるが、HTMLに残す初期表示・設定読み込み失敗時用の `City Dogs / BARBER SHOP` も書き換える
+- [ ] `booking/admin/index.html` の `<title>`・ログイン画面の店舗名、およびヘッダーに残す初期表示・設定読み込み失敗時用の `City Dogs` を書き換える。ヘッダーの `STAFF ADMIN` は共通文言なので変更しない
+- [ ] `lp/images/` の写真・ロゴ(`shop_logo.png`・`logo-mark.png`)・favicon一式(`favicon-16.png`/`favicon-32.png`/`apple-touch-icon.png`)を新店舗のものに差し替え、必要な画像を `booking/admin/` 側にもコピー。ヘッダー用 `logo-mark.png` はLPと管理画面で同じ画像にする
 - [ ] 掲載する写真について、店舗オーナーから使用許諾を得ているか確認
 - [ ] **`booking/supabase/functions/_shared/reservationEmail.ts`** の予約確認メール件名(`【City Dogs】ご予約確認`)を新店舗名に書き換える(**顧客に実際に届くメールの文面に直接影響するため見落とし厳禁**)
 - [ ] (確認のみ)`booking/supabase/functions/_shared/email.ts` の `DEFAULT_FROM` は店舗名を含まない汎用フォールバックにしてあるため書き換え不要。ただし下記5.で`RESEND_FROM_ADDRESS`を必ず設定すること(未設定のままだとこのフォールバックのまま送信される)

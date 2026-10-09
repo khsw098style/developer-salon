@@ -4,6 +4,7 @@
 // 手順は最上位の TEMPLATE.md を参照。
 // ANON_KEYはpublishable(anon)キーで、クライアントに埋め込む前提の公開鍵(秘匿情報ではない)。
 window.DEVELOPER_SALON_CONFIG = {
+  STORE_NAME: 'StoreName',
   SUPABASE_URL: 'https://cwojmmrnhvemupxubtus.supabase.co',
   ANON_KEY: 'sb_publishable_nYEHBjojuRPhIpjBPKG4NQ_nNfQVn7E',
   // Cloudflare Turnstileのサイトキー(公開情報、秘匿不要)。lp/js/config.jsと同じサイトを再利用。
